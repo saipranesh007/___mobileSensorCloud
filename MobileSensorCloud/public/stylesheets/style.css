@@ -6,3 +6,61 @@ body {
 a {
   color: #00B7FF;
 }
+
+#loginContainer
+{
+	width:400px
+}
+#tabbox
+{
+	height:60px;
+	width:510px;
+}
+
+#tabbox a{
+	width:250px;
+}
+
+#panel
+{
+	background-color:#FFF;
+	height:400px;
+}
+
+.tab
+{
+	background: #dedede;display: block;height: 40px;
+	line-height: 40px;text-align: center;
+	width: 100px;float: right;font-weight: bold;
+	-webkit-border-top-left-radius: 4px;
+	-webkit-border-top-right-radius: 4px;
+	-moz-border-radius: 4px 4px 0px 0px;
+}
+a
+{
+	color: #000;
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+}
+.customerLogin
+{
+	margin-left:8px;
+	float:left;
+}
+.sensorAdminLogin
+{
+	background-color:#FFF;
+	float:right;
+}
+#customerLoginBox
+{
+	min-height:200px;
+	padding:10px;
+}
+#sensorAdminLoginBox
+{
+	min-height:200px;
+	padding:10px;
+	display:none;
+}

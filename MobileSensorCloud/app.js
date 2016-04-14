@@ -8,11 +8,18 @@ var routes = require('./routes');
 var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
+var expressSession = require("express-session");
 
 var app = express();
-
+app.use(expressSession({
+	secret: 'sai_facebook_string',
+	resave: false,  //don't save session if unmodified
+	saveUninitialized: false,	// don't create session until something stored
+	duration: 30 * 60 * 1000,    
+	activeDuration: 5 * 60 * 1000,
+}));
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3001);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.favicon());
@@ -28,6 +35,7 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+require('./routes/route')(app);
 app.get('/', routes.index);
 app.get('/users', user.list);
 

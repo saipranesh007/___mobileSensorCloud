@@ -2,19 +2,80 @@
 <head>
 <script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
 <script src="/angularJS/signUpController.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<link rel='stylesheet' href='/stylesheets/loginPageStyles.css' />
 </head>
-<body ng-app="sensorCloud">
-	<form ng-controller="customerSignup" id="customerSignup" ng-submit="submit();">
-	Customer Registration<br/>
-	<table>
-	<tr><td>Email:</td><td><input type="email" ng-model="email"></td></tr>
-	<tr><td>Password:</td><td><input type="password" ng-model="password"></td></tr>
-		<tr><td>First Name:</td><td><input type="text" ng-model="firstName"></td></tr>
-		<tr><td>Last Name:</td><td><input type="text" ng-model="lastName"></td></tr>
-		<tr><td>Address:</td><td><textarea rows="4" cols="50" ng-model="address"></textarea></td></tr>
-		<tr><td>Phone:</td><td><input type="number" ng-model="phone"></td></tr>
-		<tr><td colspan="2"><input type="submit" value="Sign Up"></td></tr>
-	</table>
-	</form>
+<body ng-app="sensorCloud" background="images/1.jpg">
+	<div class="row">
+		<div class="col-sm-9">
+			<span style="font-family: 'Copperplate Gothic Light';font-size:44px"><a href="/">Sensor Cloud</a></span> 
+		</div>
+		<div class="col-sm-3">
+		      <a class="dropbtn" href="/login" style="font-family: 'Copperplate Gothic Light';font-size:32px">Login</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      <a class="dropbtn" href="/signup" style="font-family: 'Copperplate Gothic Light';font-size:32px">Signup</a>
+		</div>
+	</div>
+	<div class="row">
+		<div class="displayInTheMiddleOfScreen">
+			<div class="container">
+		    	<div class="row">
+					<div class="col-md-6 col-md-offset-3">
+						<div class="panel panel-login">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-xs-12">
+										<a href="#" class="active" style="font-family: 'Copperplate Gothic Light';" id="login-form-link">SignUp</a>
+									</div>
+								</div>
+								<hr>
+							</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-lg-12">
+										<form ng-controller="customerSignup" id="customerSignup" ng-submit="submit();" role="form" style="display: block;">
+											<div class="form-group">
+												<input type="email" style="font-family: 'Century Gothic';" ng-model="email" tabindex="1" class="form-control" placeholder="Email" value="">
+												<label ng-hide="signupEmailError" style="color:red">Email is mandatory</label>
+											</div>
+											<div class="form-group">
+												<input type="password" style="font-family: 'Century Gothic';" ng-model="password" tabindex="2" class="form-control" placeholder="Password">
+												<label ng-hide="signupPasswordError" style="color:red">Password is mandatory</label>
+											</div>
+											<div class="form-group">
+												<input type="text" style="font-family: 'Century Gothic';" ng-model="firstName" tabindex="3" class="form-control" placeholder="First Name">
+												<label ng-hide="signupFirstNameError" style="color:red">First Name is mandatory</label>
+											</div>
+											<div class="form-group">
+												<input type="text" style="font-family: 'Century Gothic';" ng-model="lastName" tabindex="4" class="form-control" placeholder="Last Name">
+												<label ng-hide="signupLastNameError" style="color:red">Last Name is mandatory</label>
+											</div>
+											<div class="form-group">
+												<textarea rows="4" style="font-family: 'Century Gothic';" cols="50" ng-model="address" tabindex="5" class="form-control" placeholder="Address"></textarea>
+												<label ng-hide="signupAddressError" style="color:red">Address is mandatory</label>
+											</div>
+											<div class="form-group">
+												<input type="number" style="font-family: 'Century Gothic';" ng-model="phone" tabindex="6" class="form-control" placeholder="Phone">
+												<label ng-hide="signupPhoneError" style="color:red">Phone is mandatory</label>
+											</div>
+											<div class="form-group">
+												<div class="row">
+													<div class="col-sm-6 col-sm-offset-3">
+														<input type="submit" tabindex="4" class="form-control btn btn-login" value="SignUp" style="font-family: 'Copperplate Gothic Light';">
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

@@ -1,63 +1,105 @@
 <html>
 <head>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-<link rel='stylesheet' href='/stylesheets/style.css' />
-<script type="text/javascript">
-	$(document).ready(function()
-	{
-		$(".tab").click(function()
-		{
-			var X=$(this).attr('id');
-			if(X=='sensorAdminLogin')
-			{
-				$("#sensorAdminLogin").removeClass('sensorAdminLogin');
-				$("#customerLogin").addClass('sensorAdminLogin');
-				$("#customerLoginBox").slideUp();
-				$("#sensorAdminLoginBox").slideDown();
-			}
-			else
-			{
-				$("#customerLogin").removeClass('sensorAdminLogin');
-				$("#sensorAdminLogin").addClass('sensorAdminLogin');
-				$("#sensorAdminLoginBox").slideUp();
-				$("#customerLoginBox").slideDown();
-			}
-		});
-	});
-</script>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<link rel='stylesheet' href='/stylesheets/loginPageStyles.css' />
+	<script type="text/javascript" src="/js/loginPage.js"></script>
 <script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
 <script type="text/javascript" src="/angularJS/signInController.js">
 	
 </script>
 </head>
-<body ng-app="sensorCloud">
-	<div id="loginContainer">
-	<div id="tabbox">
-	<a href="#" id="customerLogin" class="tab customerLogin">Login as Customer</a>
-	<a href="#" id="sensorAdminLogin" class="tab sensorAdminLogin">Login as Sensor Admin</a>
-	</div>
-	<div id="panel">
-		<div id="customerLoginBox">
-			<form ng-controller="customerLogin" id="customerLoginForm" ng-submit="submit();">
-			<table align="center">
-				<tr><td><h4>Customer Login</h4></td></tr>
-				<tr><td>Username:</td><td><input type="text" ng-model="customerEmail" id="customerEmail"></input></td></tr>
-				<tr><td>Password:</td><td><input type="password" ng-model="customerPassword" id="customerPassword"></input></td></tr>
-				<tr><td><input type="submit" value="Customer Login"></input></td></tr>
-			</table>
-			</form>
+<body ng-app="sensorCloud" background="images/1.jpg">
+	<div class="row">
+		<div class="col-sm-9">
+			<span style="font-family: 'Copperplate Gothic Light';font-size:44px"><a href="/">Sensor Cloud</a></span> 
 		</div>
-		<div id="sensorAdminLoginBox">
-			<form ng-controller="sensorAdminLogin" id="sensorAdminLogin" ng-submit="submit();">
-			<table align="center">
-				<tr><td><h4>Sensor Admin Login</h4></td></tr>
-				<tr><td>Username:</td><td><input type="text" ng-model="sensorAdminEmail" id="sensorAdminEmail"></input></td></tr>
-				<tr><td>Password:</td><td><input type="password" ng-model="sensorAdminPassword" id="sensorAdminPassword"></input></td></tr>
-				<tr><td><input type="submit" value="Sensor Admin Login"></input></td></tr>
-			</table>
-			</form>
+		<div class="col-sm-3">
+		      <a class="dropbtn" href="/login" style="font-family: 'Copperplate Gothic Light';font-size:32px">Login</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      <a class="dropbtn" href="/signup" style="font-family: 'Copperplate Gothic Light';font-size:32px">Signup</a>
 		</div>
 	</div>
+	<div class="row">
+		<div class="displayInTheMiddleOfScreen">
+			<div class="container">
+		    	<div class="row">
+					<div class="col-md-6 col-md-offset-3">
+						<div class="panel panel-login">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-xs-6">
+										<a href="#" class="active" style="font-family: 'Copperplate Gothic Light';" id="login-form-link">Login as Customer</a>
+									</div>
+									<div class="col-xs-6">
+										<a href="#" id="register-form-link" style="font-family: 'Copperplate Gothic Light';">Login as Sensor Admin</a>
+									</div>
+								</div>
+								<hr>
+							</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-lg-12">
+										<form ng-controller="customerLogin" id="customerLoginForm" ng-submit="submit();" role="form" style="display: block;">
+											<div class="form-group">
+												<input type="text" style="font-family: 'Century Gothic';" ng-model="customerEmail" id="customerEmail" tabindex="1" class="form-control" placeholder="Email" value="">
+												<label ng-hide="customerEmailError" style="color:red">Email is mandatory</label>
+											</div>
+											<div class="form-group">
+												<input type="password" style="font-family: 'Century Gothic';" ng-model="customerPassword" id="customerPassword" tabindex="2" class="form-control" placeholder="Password">
+												<label ng-hide="customerPasswordError" style="color:red">Password is mandatory</label>
+											</div>
+											<div class="form-group text-center">
+												<input type="checkbox" tabindex="3" class="" name="remember" id="remember">
+												<label for="remember" style="font-family: 'Copperplate Gothic Light';"> Remember Me</label>
+											</div>
+											<div class="form-group">
+												<div class="row">
+													<div class="col-sm-6 col-sm-offset-3">
+														<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In" style="font-family: 'Copperplate Gothic Light';">
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="row">
+													<div class="col-lg-12">
+														<div class="text-center">
+															<a href="http://phpoll.com/recover" tabindex="5" class="forgot-password" style="font-family: 'Copperplate Gothic Light';">Forgot Password?</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+										<form ng-controller="sensorAdminLogin" id="sensorAdminLogin" ng-submit="submit();" role="form" style="display: none;">
+											<div class="form-group">
+												<input type="text" style="font-family: 'Century Gothic';" ng-model="sensorAdminEmail" id="sensorAdminEmail" tabindex="1" class="form-control" placeholder="Email" value="">
+												<label ng-hide="sensorAdminEmailError" style="color:red">Email is mandatory</label>
+											</div>
+											<div class="form-group">
+												<input type="password" style="font-family: 'Century Gothic';" ng-model="sensorAdminPassword" id="sensorAdminPassword" tabindex="2" class="form-control" placeholder="Password">
+												<label ng-hide="sensorAdminPasswordError" style="color:red">Password is mandatory</label>
+											</div>
+											<div class="form-group text-center">
+												<input type="checkbox" tabindex="3" class="" name="remember" id="remember">
+												<label for="remember" style="font-family: 'Copperplate Gothic Light';"> Remember Me</label>
+											</div>
+											<div class="form-group">
+												<div class="row">
+													<div class="col-sm-6 col-sm-offset-3">
+														<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In" style="font-family: 'Copperplate Gothic Light';">
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

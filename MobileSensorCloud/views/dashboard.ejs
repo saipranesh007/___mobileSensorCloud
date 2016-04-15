@@ -1,0 +1,34 @@
+<html>
+<head>
+<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script>
+	var sensorCloud = angular.module('sensorCloud',[]);
+	sensorCloud.controller("sensorCloudDashboardController",function($scope, $http) {
+		$http({
+		method : "GET",
+		url : '/getSensorsList',
+		}).then(function(sensorsList) {
+			$scope.sensorsList=sensorsList.data;
+		 }, function() {
+		});
+	});
+</script>
+</head>
+<body ng-app="sensorCloud" >
+	<div ng-controller="sensorCloudDashboardController">
+		These are the sensors in this hub
+		<ul>
+			<li ng-repeat="sensor in sensorsList">
+				<a href="/sensorDataPage?sensorID={{sensor}}" id={{sensor}}>{{sensor}}</a>
+				<!--<table>
+					<th><td>Time</td><td>Depth</td><td>Station</td><td>Parameter</td><td>Unit</td><td>Value</td></th>
+					<tr ng-repeat="x in data">
+						<td>x</td>
+					</tr>
+				</table>-->
+			</li>
+		</ul>
+	</div>
+</body>
+</html>

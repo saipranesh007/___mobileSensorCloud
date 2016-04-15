@@ -1,0 +1,16 @@
+<html>
+<head>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<h2>This is data for the sensor <b><i><%=sensorID%></i></b></h2>
+	<table class="table table-striped">
+	<tr><td>Time</td><td>Depth</td><td>Station</td><td>Parameter</td><td>Unit</td><td>Value</td></tr>
+		<% for(var i=0;i<sensorData.length;i++){%>
+			<tr><td><%=sensorData[i][0]%></td><td><%=sensorData[i][1]%></td><td><%=sensorData[i][2]%></td><td><%=sensorData[i][3]%></td><td><%=sensorData[i][4]%></td><td><%=sensorData[i][5]%></td></tr>
+		<%}%>
+	</table>
+</body>
+</html>

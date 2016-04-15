@@ -4,9 +4,14 @@ var expressSession = require("express-session");
 var mongoStore = require("connect-mongo")(expressSession);
 var mongo = require("../routes/mongo");
 var mongoURL = "mongodb://localhost:27017/sensorCloud";
+var request = require("request")
 module.exports = function (app)	{
 	app.get('/login',redirectToLoginPage);
 	app.get('/signup',redirectToSignupPage);
+	app.get('/redirectToDashboard',redirectToDashBoard);
+	app.get('/getSensorData',getSensorData);
+	app.get('/getSensorsList',getSensorsList);
+	app.get('/sensorDataPage',redirectToSensorDataPage);
 	app.post('/checkLoginCustomer',checkLoginCustomer);
 	app.post('/checkLoginAdmin',checkLoginAdmin);
 	app.post('/customerSignUp',customerSignUp);
@@ -118,5 +123,57 @@ function customerSignUp(req,res){
 				res.send({"status":"accountExists","msg":"Account already exists"});
 			}
 		});
+	});
+}
+
+function redirectToDashBoard(req,res){
+	res.render('dashboard');
+}
+function getSensorsList(req,res){
+	var sensorsList=["urn:ioos:station:NOAA.NOS.CO-OPS:9414750","urn:ioos:station:NOAA.NOS.CO-OPS:9410068","urn:ioos:station:NOAA.NOS.CO-OPS:9410079","urn:ioos:station:NOAA.NOS.CO-OPS:9410092","urn:ioos:station:NOAA.NOS.CO-OPS:9410120"];
+	res.send(sensorsList);
+}
+function getSensorData(req,res){
+	//Logic to get current time and current time plus one hour.
+	var sensor=req.param("sensorID");
+	var date = new Date();
+	date.setHours ( date.getHours() - 7 );	
+	console.log("current date:"+date);
+	var fromDate = date.toISOString();	//toISOString gives time in ISO Formatted ISO Time.
+	date.setHours ( date.getHours() + 1 );
+	var toDate = date.toISOString();
+	console.log(fromDate+"   "+toDate);
+	//var sensorsList=["urn:ioos:station:NOAA.NOS.CO-OPS:9410032","urn:ioos:station:NOAA.NOS.CO-OPS:9410068","urn:ioos:station:NOAA.NOS.CO-OPS:9410079","urn:ioos:station:NOAA.NOS.CO-OPS:9410092","urn:ioos:station:NOAA.NOS.CO-OPS:9410120"];
+	var url="http://erddap.axiomdatascience.com/erddap/tabledap/cencoos_sensor_service.json?time,depth,station,parameter,unit,value&time>"+fromDate+"&time<"+toDate+"&station=%22"+sensor+"%22&parameter=%22Water%20Level%22&unit=%22ft%22";
+	request({
+	    url: url,
+	    json: true
+	}, function (error, response, body) {
+
+	    if (!error && response.statusCode === 200) {
+	    	res.send({"status":"success","msg":body.table.rows});
+	    }
+	});
+}
+
+function redirectToSensorDataPage(req,res){
+	var sensor=req.param("sensorID");
+	var date = new Date();
+	date.setHours ( date.getHours() - 7 );	
+	console.log("current date:"+date);
+	var fromDate = date.toISOString();	//toISOString gives time in ISO Formatted ISO Time.
+	date.setHours ( date.getHours() + 1 );
+	var toDate = date.toISOString();
+	console.log(fromDate+"   "+toDate);
+	//var sensorsList=["urn:ioos:station:NOAA.NOS.CO-OPS:9410032","urn:ioos:station:NOAA.NOS.CO-OPS:9410068","urn:ioos:station:NOAA.NOS.CO-OPS:9410079","urn:ioos:station:NOAA.NOS.CO-OPS:9410092","urn:ioos:station:NOAA.NOS.CO-OPS:9410120"];
+	var url="http://erddap.axiomdatascience.com/erddap/tabledap/cencoos_sensor_service.json?time,depth,station,parameter,unit,value&time>"+fromDate+"&time<"+toDate+"&station=%22"+sensor+"%22&parameter=%22Water%20Level%22&unit=%22ft%22";
+	request({
+	    url: url,
+	    json: true
+	}, function (error, response, body) {
+
+	    if (!error && response.statusCode === 200) {
+	    	res.render("sensorDataPage",{'sensorData':body.table.rows,'sensorID':sensor});
+	    }
 	});
 }

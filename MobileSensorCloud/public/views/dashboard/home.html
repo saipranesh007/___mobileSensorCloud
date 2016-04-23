@@ -1,0 +1,33 @@
+<div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Dashboard</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+
+        <stats  comments="Add a New Sensor!" colour="yellow" type="plus" goto = "dashboard.addSensor"></stats>
+        <stats  comments="Add a Sensor Hub!" colour="green" type="plus-circle" goto = "dashboard.addSensorHub"></stats>
+        <stats  comments="Manage Subscription" colour="primary" type="briefcase"></stats>
+        <stats  comments="View Sensor Stats" colour="red" type="pie-chart"></stats>
+    </div>
+
+    <div class="row" >
+        <div class="col-lg-6 col-sm-12" id="line-chart" ng-controller="MainCtrl">
+            <div class="panel panel-default">
+                <div class="panel-heading">Sensor Stats</div>
+                <div class="panel-body">
+                  <canvas id="line" class="chart chart-line" chart-data="line.data"
+                  chart-labels="line.labels" chart-legend="true" chart-series="line.series"
+                  chart-click="line.onClick" >
+                  </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class = "container-fluid">
+        <ng-map center="current"></ng-map>
+    </div>
+</div>

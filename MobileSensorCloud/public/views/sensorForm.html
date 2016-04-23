@@ -1,0 +1,53 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Sensor Form</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading text-center">
+                Sensor Details
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-5 col-lg-offset-3" >
+                        <form role="form" ng-controller = "FormCtrl">
+                            <div class="form-group">
+                                <label>Sensor ID</label>
+                                <input class="form-control" placeholder="Sensor ID">
+                                <br>
+                                <label>Signal Type</label>
+                                <input class="form-control" placeholder="Signal Type">
+                                <br>
+                                <label>Signal Speed</label>
+                                <input class="form-control" placeholder="Signal Speed">
+                                <br>
+                                <label>Number of Pins</label>
+                                <input class="form-control" placeholder="Number of Pins">
+                                <br>
+                                <label>Output Signal</label>
+                                <input class="form-control" placeholder="Output Signal">
+                                <br>
+                                <label>Installation Date</label>
+                                <input class="form-control" placeholder="Installation Date">
+                                <br>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" ng-click="test()">Submit Button</button>
+                            <button type="reset" class="btn btn-primary">Reset Button</button>
+                        </form>
+                    </div>
+
+                    <!-- /.col-lg-6 (nested) -->
+                </div>
+                <!-- /.row (nested) -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>

@@ -69,7 +69,6 @@ sensorCloud.controller('sensorAdminLogin',function($scope,$http){
 				}
 			}).success(function(result) {
 				if(result.status == "success"){
-					alert(result.msg);
 					window.location = '/sensorAdminDashboard';
 				}
 				else if(result.status=="fail")

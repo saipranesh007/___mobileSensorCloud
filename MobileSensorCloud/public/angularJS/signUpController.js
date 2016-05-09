@@ -1,6 +1,5 @@
 var sensorCloud = angular.module('sensorCloud', []);
 sensorCloud.controller('customerSignup',function($scope,$http){
-	var error = "";
 	$scope.signupEmailError = true;
 	$scope.signupPasswordError = true;
 	$scope.signupFirstNameError = true;
@@ -8,6 +7,7 @@ sensorCloud.controller('customerSignup',function($scope,$http){
 	$scope.signupAddressError = true;
 	$scope.signupPhoneError = true;
 	$scope.submit = function() {
+		var error = "";
 		$scope.signupEmailError = true;
 		$scope.signupPasswordError = true;
 		$scope.signupFirstNameError = true;

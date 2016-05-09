@@ -14,10 +14,13 @@ module.exports = function (app)	{
 	app.get('/signout',signout);
 	app.get('/getGraphData',getGraphData);
 	app.get('/sensorAdminDashboard',redirectToAdminDashboard);
+	app.get('/getSensorHubsList',getSensorHubsList);
 	app.post('/checkLoginCustomer',checkLoginCustomer);
 	app.post('/checkLoginAdmin',checkLoginAdmin);
 	app.post('/customerSignUp',customerSignUp);
 	app.post('/storeSensorHubData',storeSensorHubData);
+	app.post('/deleteSensorHub',deleteSensorHub);
+	app.post('/saveSensor',saveSensor);
 };
 
 function getGraphData(req,res){
@@ -230,8 +233,8 @@ function storeSensorHubData(req,res){
 							'sensorHubStatus':sensorHubStatus,
 							'sensorHubAddress':sensorHubAddress,
 							'sensorHubCity':sensorHubCity,
-							'sensorHubState':'sensorHubState',
-							'sensorHubCountry':'sensorHubCountry'};
+							'sensorHubState':sensorHubState,
+							'sensorHubCountry':sensorHubCountry};
 					coll.insert(insert_hub_details_query,function(err,result){
 						if(!err){
 							res.send({"status":"success" , 'msg': 'Details Inserted successfully'});
@@ -243,5 +246,52 @@ function storeSensorHubData(req,res){
 				}
 			});
 		});
+	}
+}
+
+function getSensorHubsList(req,res){
+	if(req.session.email){
+		mongo.connect(mongoURL, function(){
+			console.log('Connected to mongo at: ' + mongoURL);
+			var coll = mongo.collection('sensorHub');
+			coll.find({}).toArray(function(err, results){
+				if(err){
+					res.send({"status":"fail" , 'msg': 'Internal Error'});	
+				}
+				else if(results==null){
+					res.send({"status":"fail" , 'msg': 'No Sensor Hub Exists'});
+				}
+				else{
+					res.send({"status":"success" , 'msg': results});
+				}
+			});
+		});
+	}
+	else{
+		res.redirect('/');
+	}
+}
+
+function deleteSensorHub(req,res){
+	if(req.session.email){
+		var sensorHubName = req.param("sensorHubName");
+		mongo.connect(mongoURL, function(){
+			console.log('Connected to mongo at: ' + mongoURL);
+			var coll = mongo.collection('sensorHub');
+			coll.deleteOne({sensorHubName:sensorHubName}, function(err,results){
+				if(err){
+					res.send({"status":"fail" , 'msg': 'Error Deleting'});
+				}
+				else{
+					res.send({"status":"success" , 'msg': 'Deleted Successfully'});
+				}
+			});
+		});
+	}
+}
+
+function saveSensor(req,res){
+	if(req.session.email){
+		
 	}
 }

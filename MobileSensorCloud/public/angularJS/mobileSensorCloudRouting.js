@@ -38,10 +38,25 @@ sensorCloudApp.config(['$urlRouterProvider','$stateProvider',function($urlRouter
 				else if(request=="addSensor"){
 					$state.go("addSensor");
 				}
+				else if(request=="manageSensorHub"){
+					$state.go("manageSensorHub");
+				}
+				else if(request=="manageSensor"){
+					$state.go("manageSensor");
+				}
 			}
 		}
 	}).state('addSensorHub',{
 		url:'/addSensorHub',
 		templateUrl:'partials/addSensorHub',
+	}).state('addSensor',{
+		url:'/addSensor',
+		templateUrl:'partials/addSensor',
+	}).state('manageSensorHub',{
+		url:'/manageSensorHub',
+		templateUrl:'partials/manageSensorHub',
+	}).state('manageSensor',{
+		url:'/manageSensor',
+		templateUrl:'partials/manageSensor',
 	})
 }]);

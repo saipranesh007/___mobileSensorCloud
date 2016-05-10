@@ -58,5 +58,23 @@ sensorCloudApp.config(['$urlRouterProvider','$stateProvider',function($urlRouter
 	}).state('manageSensor',{
 		url:'/manageSensor',
 		templateUrl:'partials/manageSensor',
+	}).state('streamFlow',{
+		url:'/streamFlow',
+		templateUrl:'partials/streamFlow',
+	}).state('streamHeight',{
+		url:'/streamHeight',
+		templateUrl:'partials/streamHeight',
+	}).state('waterLevel',{
+		url:'/waterLevel',
+		templateUrl:'partials/waterLevel',
+	}).state('waterTemperature',{
+		url:'/waterTemperature',
+		templateUrl:'partials/waterTemperature',
+	}).state('waveHeight',{
+		url:'/waveHeight',
+		templateUrl:'partials/waveHeight',
+	}).state('windSpeed',{
+		url:'/windSpeed',
+		templateUrl:'partials/windSpeed',
 	})
 }]);

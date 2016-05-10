@@ -10,16 +10,23 @@
     <script src="/angularJS/mobileSensorCloudRouting.js"></script>
     <script src="/angularJS/dashboardController.js"></script>
     <script src="/angularJS/addSensorHubController.js"></script>
+    <script src="/angularJS/streamFlowController.js"></script>
+    <script src="/angularJS/waterLevelController.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.1/Chart.bundle.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.1/Chart.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.1/Chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.1/Chart.min.js"></script>
+    <link rel="stylesheet" href="http://fortawesome.github.io/Font-Awesome/assets/css/site.css">
+    <link rel="stylesheet" href="http://fortawesome.github.io/Font-Awesome/assets/font-awesome/css/font-awesome.css">
     <script type="text/javascript">
     	$(document).ready(function(){
 		   $("li a").click(function(){
 			   $("li a.active").removeClass("active");
 			   $(this).addClass("active");
+			});
+			$('.userOptions > li a').click(function() {
+			    $(this).parent().find('ul').toggle();
 			});
 		});
     </script>
@@ -59,6 +66,12 @@
         li a:hover {
             background-color: #810541;
             color: white;
+            text-decoration:none;
+        }
+        li ul li a:hover {
+            background-color: #810541;
+            color: white;
+            text-decoration:none;
         }
         /* Search box styles*/
         .stylish-input-group .input-group-addon{
@@ -91,11 +104,23 @@
 		    color: #fff;
 		    background-color: #d9534f;
 		}
+		ul li ul {
+		    display: none;
+		} 
+		.panel-green {
+		    border-color: #5cb85c;
+		}
     </style>
 </head>
 <body ng-controller="customerCtrl">
 	<div class="row" style="height:70px;background-color:black;">
+		<div class="col-sm-11">
 	    <p style="font-size:32px;margin-top:12px;color:white">&nbsp;Sensor Management Console</p>
+	     </div>
+	    <div class="col-sm-1">
+	    <p style="align:right;margin-top:15px;">
+	    <a style="align:right;margin-top:15px;font-size:24px;color:white" href="/signout">SignOut</a></p>
+	    </div>
 	    <br/>
 	</div>
 	<div class="row">
@@ -108,11 +133,20 @@
                 </button>  
             </span>
         </div>
-	    <ul style="width:220px;">
-	        <li><a class="active" ui-sref="dashboard">Dashboard</a></li>
-	        <li><a ui-sref="sensorStats">Sensor Statistics</a></li>
-	        <li><a ui-sref="sensorProvider">Sensor Provider</a></li>
-	        <li><a ui-sref="profile">Profile</a></li>
+	    <ul style="width:220px;" class="userOptions">
+	        <li><a class="active" ui-sref="dashboard"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Dashboard</a></li>
+	        <li><a ui-sref="sensorStats"><i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i>&nbsp; Sensor Statistics</a></li>
+	        <li><a ui-sref="profile"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp; Profile</a></li>
+	        <li><a><i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i>&nbsp; Sensor Provider<i class="fa fa-angle-down fa-fw" aria-hidden="true"></i></a>
+	        	<ul style="width:220px;">
+	        		<li><a ui-sref="streamFlow">&nbsp; &nbsp; &nbsp; <i class="fa fa-area-chart fa-fw" aria-hidden="true"></i>&nbsp; Stream Flow</a></li>
+	        		<li><a ui-sref="streamHeight">&nbsp; &nbsp; &nbsp; <i class="fa fa-line-chart fa-fw" aria-hidden="true"></i>&nbsp; Stream Height</a></li>
+	        		<li><a ui-sref="waterLevel">&nbsp; &nbsp; &nbsp; <i class="fa fa-pie-chart fa-fw" aria-hidden="true"></i>&nbsp; Water Level</a></li>
+	        		<li><a ui-sref="waterTemperature">&nbsp; &nbsp; &nbsp; <i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i>&nbsp; Water Temperature</a></li>
+	        		<li><a ui-sref="waveHeight">&nbsp; &nbsp; &nbsp; <i class="fa fa-line-chart fa-fw" aria-hidden="true"></i>&nbsp; Wave Height</a></li>
+	        		<li><a ui-sref="windSpeed">&nbsp; &nbsp; &nbsp; <i class="fa fa-pie-chart fa-fw" aria-hidden="true"></i>&nbsp; Wind Speed</a></li>
+	        	</ul>
+	        </li>
 	    </ul>
 	    </div>
 	    <div class="col-sm-10">

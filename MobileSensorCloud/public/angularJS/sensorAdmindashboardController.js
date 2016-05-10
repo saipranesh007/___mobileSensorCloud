@@ -39,3 +39,62 @@ sensorCloudApp.controller('viewSensorHubController',function($scope,$http){
 		});
 	}
 });
+
+sensorCloudApp.controller('viewSensorsController',function($scope,$http){
+	$http({
+		method : "GET",
+		url : '/getSensorsList',
+	}).success(function(result) {
+		if(result.status == "success"){
+			$scope.sensors= result.msg;
+		}
+		else if(result.status=="fail")
+		{
+			//if(result.msg=='Incorrect Login'){
+			//	alert("Incorrect Login. Please try again");
+			//}
+		}
+	}).error(function(error) {
+		$scope.unexpected_error = false;
+	});
+	
+	$scope.editSensor=function(sensorID){
+		$http({
+			method:"POST",
+			url:'/editSensor',
+			data:{
+				"sensorID":sensorID
+			}
+		}).success(function(result) {
+			if(result.status == "success"){
+				window.location.reload();
+			}
+			else if(result.status=="fail")
+			{
+				alert(result.msg);
+			}
+		}).error(function(error) {
+			$scope.unexpected_error = false;
+		});
+	}
+	
+	$scope.deleteSensor=function(sensorID){
+		$http({
+			method:"POST",
+			url:'/deleteSensor',
+			data:{
+				"sensorID":sensorID
+			}
+		}).success(function(result) {
+			if(result.status == "success"){
+				window.location.reload();
+			}
+			else if(result.status=="fail")
+			{
+				alert(result.msg);
+			}
+		}).error(function(error) {
+			$scope.unexpected_error = false;
+		});
+	}
+});

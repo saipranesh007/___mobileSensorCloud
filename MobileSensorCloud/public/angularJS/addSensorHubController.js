@@ -1,4 +1,5 @@
 sensorCloudApp.controller('addSensorHubController',function($scope,$http){
+	$scope.storedStatus=true;
 	$scope.submit=function(){
 		$http({
 			method: "POST",
@@ -16,7 +17,7 @@ sensorCloudApp.controller('addSensorHubController',function($scope,$http){
 			}
 		}).success(function(result) {
 			if(result.status == "success"){
-				alert(result.msg)
+				$scope.storedStatus=false;
 			}
 			else if(result.status=="fail")
 			{
@@ -43,7 +44,7 @@ sensorCloudApp.controller('addSensorHubController',function($scope,$http){
 			}
 		}).success(function(result) {
 			if(result.status == "success"){
-				alert(result.msg)
+				window.location.reload();
 			}
 			else if(result.status=="fail")
 			{
@@ -53,6 +54,40 @@ sensorCloudApp.controller('addSensorHubController',function($scope,$http){
 			$scope.unexpected_error = false;
 		});
 	}
+});
+sensorCloudApp.controller('addSensorController',function($scope,$http){
+	$scope.storedStatus=true;
+	$scope.submit=function(){
+		$http({
+			method: "POST",
+			url : '/saveSensor',
+			data:{
+				"sensorID":$scope.sensorID,
+				"sensorType":$scope.sensorType,
+				"sensorHub":$scope.sensorHub,
+				"sensorDimensions":$scope.sensorDimensions,
+				"sensorSignalType":$scope.sensorSignalType,
+				"sensorSignalSpeed":$scope.sensorSignalSpeed,
+				"sensorPins":$scope.sensorPins,
+				"sensorOutputSignal":$scope.sensorOutputSignal,
+				"sensorInstallationDate":$scope.sensorInstallationDate,
+				"sensorLatitude":$scope.sensorLatitude,
+				"sensorLongitude":$scope.sensorLongitude,
+				"sensorCity":$scope.sensorCity,
+					
+			}
+		}).success(function(result) {
+			if(result.status == "success"){
+				$scope.storedStatus=false;
+			}
+			else if(result.status=="fail")
+			{
+				alert(result.msg);
+			}
+		}).error(function(error) {
+			$scope.unexpected_error = false;
+		});
+	};
 	$http({
         method : "GET",
         url : "/getSensorHubsList"

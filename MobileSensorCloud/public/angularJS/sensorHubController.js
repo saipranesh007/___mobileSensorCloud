@@ -140,6 +140,14 @@ sensorCloudApp.controller('addSensorController',function($scope,$http){
 			$scope.unexpected_error = false;
 		});
 	};
+	$http({
+        method : "GET",
+        url : "/getSensorHubsList"
+    }).then(function mySucces(response) {
+    	$scope.sensorHubs = response.data.msg;
+    }, function myError(response) {
+        $scope.myWelcome = response.statusText;
+    });
 });
 
 sensorCloudApp.controller('sensorHubSubscriptionController',function($scope,$http){

@@ -17,8 +17,8 @@ sensorCloudApp.config(['$urlRouterProvider','$stateProvider',function($urlRouter
 					$state.go("viewRegisteredSensorsHubs");
 				else if(request=="subscribeToSensorHubs")
 					$state.go("subscribeToSensorHubs");
-				else if(request=="manageSensors")
-					$state.go("manageSensors");
+				else if(request=="viewSensors")
+					$state.go("viewSensors");
 			}
 		}
 	}).state('sensorStats',{
@@ -87,5 +87,8 @@ sensorCloudApp.config(['$urlRouterProvider','$stateProvider',function($urlRouter
 	}).state('subscribeToSensorHubs',{
 		url:'/subscribeToSensorHubs',
 		templateUrl:'partials/subscribeToSensorHub',
+	}).state('viewSensors',{
+		url:'/viewSensors',
+		templateUrl:'partials/viewSensors',
 	})
 }]);

@@ -8,7 +8,6 @@ module.exports = function (app)	{
 	app.get('/login',redirectToLoginPage);
 	app.get('/signup',redirectToSignupPage);
 	app.get('/redirectToDashboard',redirectToDashBoard);
-	app.get('/getSensorData',getSensorData);
 	app.get('/getSensorsList',getSensorsList);
 	app.get('/sensorDataPage',redirectToSensorDataPage);
 	app.get('/signout',signout);
@@ -28,6 +27,7 @@ module.exports = function (app)	{
 	app.post('/disableSensorHub',disableSensorHub);
 	app.post('/subscribeToSensors',subscribeToSensors);
 	app.post('/unSubscribeToSensorHub',unSubscribeToSensorHub);
+	app.post('/getSensorData',getSensorData);
 };
 
 function getGraphData(req,res){
@@ -152,7 +152,7 @@ function getSensorsList(req,res){
 	var sensorsList=["urn:ioos:station:NOAA.NOS.CO-OPS:9414750","urn:ioos:station:NOAA.NOS.CO-OPS:9410068","urn:ioos:station:NOAA.NOS.CO-OPS:9410079","urn:ioos:station:NOAA.NOS.CO-OPS:9410092","urn:ioos:station:NOAA.NOS.CO-OPS:9410120"];
 	res.send(sensorsList);
 }
-function getSensorData(req,res){
+/*function getSensorData(req,res){
 	//Logic to get current time and current time plus one hour.
 	var sensor=req.param("sensorID");
 	var date = new Date();
@@ -173,6 +173,47 @@ function getSensorData(req,res){
 	    	res.send({"status":"success","msg":body.table.rows});
 	    }
 	});
+}*/
+function getSensorData(req,res){
+	if(req.session.email){
+		var sensorHubName=req.param("sensorHubName");
+		var type=req.param("type");
+		var sensorID;
+		var data=[];
+		mongo.connect(mongoURL, function(){
+			console.log('Connected to mongo at: ' + mongoURL);
+			var coll = mongo.collection('sensorInformation');
+			coll.find({"sensorHub":sensorHubName}).toArray(function(err, results){
+				if(err){
+					res.send({"status":"fail" , 'msg': 'Internal Error'});	
+				}
+				else if(results==null){
+					res.send({"status":"fail" , 'msg': 'No Sensor Hub Exists'});
+				}
+				else{
+					for(var i=0;i<results.length;i++){
+						if(results[i].sensorType==type){
+							sensorID=results[i].sensorID;
+							break;
+						}
+					}
+					type = type.replace(/\s/g,'');
+					var coll = mongo.collection(type);
+					coll.find({"sensorID":sensorID}).toArray(function(err, results){
+						if(err){
+							res.send({"status":"fail" , 'msg': 'Internal Error'});	
+						}
+						else if(results==null){
+							res.send({"status":"fail" , 'msg': 'No Sensor Hub Exists'});
+						}
+						else{
+							res.send({"status":"success" , 'msg': results});
+						}
+					});
+				}
+			});
+		});
+	}
 }
 
 function redirectToSensorDataPage(req,res){
@@ -473,7 +514,7 @@ function registeredSensorsHubs(req,res){
 	if(req.session.email){
 		mongo.connect(mongoURL,function(){
 			var coll=mongo.collection('userSubscriptions');
-			coll.find({}).toArray(function(err,results){
+			coll.find({"email":req.session.email}).toArray(function(err,results){
 				if(err){
 					res.send({"status":"fail","msg":"Error in fetching details"});
 				}

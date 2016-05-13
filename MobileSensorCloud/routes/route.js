@@ -16,6 +16,8 @@ module.exports = function (app)	{
 	app.get('/sensorAdminDashboard',redirectToAdminDashboard);
 	app.get('/getSensorHubsList',getSensorHubsList);
 	app.get('/getSensorsList',getSensorsList);
+	app.get('/getSensorHubSubscriptions',getSensorHubSubscriptions);
+	app.get('/registeredSensorsHubs',registeredSensorsHubs);
 	app.post('/checkLoginCustomer',checkLoginCustomer);
 	app.post('/checkLoginAdmin',checkLoginAdmin);
 	app.post('/customerSignUp',customerSignUp);
@@ -23,6 +25,9 @@ module.exports = function (app)	{
 	app.post('/deleteSensorHub',deleteSensorHub);
 	app.post('/saveSensor',saveSensor);
 	app.post('/deleteSensor',deleteSensor);
+	app.post('/disableSensorHub',disableSensorHub);
+	app.post('/subscribeToSensors',subscribeToSensors);
+	app.post('/unSubscribeToSensorHub',unSubscribeToSensorHub);
 };
 
 function getGraphData(req,res){
@@ -215,7 +220,6 @@ function storeSensorHubData(req,res){
 	if(req.session.email){
 		var sensorHubName=req.param("sensorHubName");
 		var sensorHubDescription=req.param("sensorHubDescription");
-		var sensorHubType=req.param("sensorHubType");
 		var sensorHubStatus=req.param("sensorHubStatus");
 		var sensorHubAddress=req.param("sensorHubAddress");
 		var sensorHubCity=req.param("sensorHubCity");
@@ -231,7 +235,6 @@ function storeSensorHubData(req,res){
 				else if(results==null){
 					var insert_hub_details_query={'sensorHubName':sensorHubName,
 							'sensorHubDescription':sensorHubDescription,
-							'sensorHubType':sensorHubType,
 							'sensorHubStatus':sensorHubStatus,
 							'sensorHubAddress':sensorHubAddress,
 							'sensorHubCity':sensorHubCity,
@@ -377,6 +380,135 @@ function deleteSensor(req,res){
 					res.send({"status":"success" , 'msg': 'Deleted Successfully'});
 				}
 			});
+		});
+	}
+}
+
+function disableSensorHub(req,res){
+	if(req.param("sensorHubStatus")=="Enable"){
+		sensorHubStatus=true;
+	}
+	else{
+		sensorHubStatus=false;
+	}
+	mongo.connect(mongoURL, function(){
+		console.log('Connected to mongo at: ' + mongoURL);
+		var coll = mongo.collection('sensorHub');
+		coll.updateOne(
+				{'sensorHubName':req.param("sensorHubName")},
+				{
+					$set:{'sensorHubStatus':req.param("sensorHubStatus")
+					}
+				},function(err,result){
+					if(result){
+						res.send({"status":"success" , 'msg': 'Data saved successfully'});
+					}
+					else{
+						res.send({"status":"fail" , 'msg': 'error in updating details in lifeevents table'});
+					}
+			});
+	});
+}
+
+function getSensorHubSubscriptions(req,res){
+	if(req.session.email){
+		var data=[];
+		mongo.connect(mongoURL, function(){
+			console.log('Connected to mongo at: ' + mongoURL);
+			var coll = mongo.collection('userSubscriptions');
+			coll.find({email:req.session.email}).toArray(function(err, results){
+				if(err){
+					res.send({"status":"fail" , 'msg': 'Internal Error'});	
+				}
+				else if(results==null){
+					res.send({"status":"fail" , 'msg': 'No Sensor Hub Exists'});
+				}
+				else{
+					data.push(results);
+					var item=[];
+					for(var i=0;i<results.length;i++){
+						item.push(results[i].sensorHubName)
+					}
+					var coll = mongo.collection('sensorHub');
+					coll.find({sensorHubName:{$nin:item}}).toArray(function(err, results){
+						if(err){
+							res.send({"status":"fail" , 'msg': 'Internal Error'});	
+						}
+						else if(results==null){
+							res.send({"status":"fail" , 'msg': 'No Sensor Hub Exists'});
+						}
+						else{
+							res.send({"status":"success" , 'msg': results});
+						}
+					});
+				}
+			});
+		});
+	}
+	else{
+		res.redirect('/');
+	}
+}
+
+function subscribeToSensors(req,res){
+	if(req.session.email){
+		var sensorHubName = req.param("sensorHubName");
+		mongo.connect(mongoURL, function(){
+			console.log('Connected to mongo at: ' + mongoURL);
+			var coll = mongo.collection('userSubscriptions');
+			var insert_subscription_query={'email':req.session.email,'sensorHubName':sensorHubName};
+			coll.insert(insert_subscription_query,function(err,result){
+				if(err){
+					res.send({"status":"fail" , 'msg': 'Error in Subscribing'});
+				}
+				else{
+					res.send({"status":"success" , 'msg': 'Subscribed successfully'});
+				}
+			});
+		});
+	}
+}
+
+function registeredSensorsHubs(req,res){
+	if(req.session.email){
+		mongo.connect(mongoURL,function(){
+			var coll=mongo.collection('userSubscriptions');
+			coll.find({}).toArray(function(err,results){
+				if(err){
+					res.send({"status":"fail","msg":"Error in fetching details"});
+				}
+				else{
+					var userSensorSubscriptions=[];
+					for(var i=0;i<results.length;i++){
+						userSensorSubscriptions.push(results[i].sensorHubName);
+					}
+					var coll=mongo.collection("sensorHub");
+					coll.find({sensorHubName:{$in:userSensorSubscriptions}}).toArray(function(err,results){
+						if(err){
+							res.send({"status":"fail","msg":"error in fetching details"});
+						}
+						else{
+							res.send({"status":"success","msg":results});
+						}
+					});
+				}
+			})
+		})
+	}
+}
+
+function unSubscribeToSensorHub(req,res){
+	if(req.session.email){
+		mongo.connect(mongoURL,function(){
+			var coll=mongo.collection("userSubscriptions");
+			coll.remove({'email':req.session.email,'sensorHubName':req.param("sensorHubName")}, function(err, result) {
+				if(err){
+					res.send({"status":"fail","msg":"Error Deleting"});
+				}
+				else{
+					res.send({"status":"success","msg":"Deleted Successfully"});
+				}
+			})
 		});
 	}
 }

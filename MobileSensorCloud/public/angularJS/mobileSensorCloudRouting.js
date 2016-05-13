@@ -12,8 +12,13 @@ sensorCloudApp.config(['$urlRouterProvider','$stateProvider',function($urlRouter
 		url:'/dashboard',
 		templateUrl:'partials/dashboard',
 		controller:function($scope,$state,$rootScope){
-			$scope.view = function(){
-				$state.go("viewRegisteredSensors");
+			$scope.view = function(request){
+				if(request=="manageRegisteredSensorHubs")
+					$state.go("viewRegisteredSensorsHubs");
+				else if(request=="subscribeToSensorHubs")
+					$state.go("subscribeToSensorHubs");
+				else if(request=="manageSensors")
+					$state.go("manageSensors");
 			}
 		}
 	}).state('sensorStats',{
@@ -25,8 +30,8 @@ sensorCloudApp.config(['$urlRouterProvider','$stateProvider',function($urlRouter
 	}).state('profile',{
 		url:'/profile',
 		templateUrl:'partials/profile',
-	}).state('viewRegisteredSensors',{
-		templateUrl:'/registeredSensors'
+	}).state('viewRegisteredSensorsHubs',{
+		templateUrl:'partials/viewRegisteredSensorsHubs'
 	}).state('sensorAdminDashboard',{
 		url:'/sensorAdminDashboard',
 		templateUrl:'partials/sensorAdminDashboardConsole',
@@ -41,8 +46,8 @@ sensorCloudApp.config(['$urlRouterProvider','$stateProvider',function($urlRouter
 				else if(request=="manageSensorHub"){
 					$state.go("manageSensorHub");
 				}
-				else if(request=="manageSensor"){
-					$state.go("manageSensor");
+				else if(request=="manageSensors"){
+					$state.go("manageSensors");
 				}
 			}
 		}
@@ -55,9 +60,9 @@ sensorCloudApp.config(['$urlRouterProvider','$stateProvider',function($urlRouter
 	}).state('manageSensorHub',{
 		url:'/manageSensorHub',
 		templateUrl:'partials/manageSensorHub',
-	}).state('manageSensor',{
-		url:'/manageSensor',
-		templateUrl:'partials/manageSensor',
+	}).state('manageSensors',{
+		url:'/manageSensors',
+		templateUrl:'partials/manageSensors',
 	}).state('streamFlow',{
 		url:'/streamFlow',
 		templateUrl:'partials/streamFlow',
@@ -76,5 +81,11 @@ sensorCloudApp.config(['$urlRouterProvider','$stateProvider',function($urlRouter
 	}).state('windSpeed',{
 		url:'/windSpeed',
 		templateUrl:'partials/windSpeed',
+	}).state('/manageRegisteredSensors',{
+		url:'/manageRegisteredSensors',
+		templateUrl:'/manageRegisteredSensors',
+	}).state('subscribeToSensorHubs',{
+		url:'/subscribeToSensorHubs',
+		templateUrl:'partials/subscribeToSensorHub',
 	})
 }]);

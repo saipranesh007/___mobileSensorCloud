@@ -10,7 +10,7 @@ var express = require('express')
   , path = require('path');
 
 var expressSession = require("express-session");
-var mongoSessionConnectURL = "mongodb://localhost:27017/sessions";
+var mongoSessionConnectURL = "mongodb://project:project@ds023052.mlab.com:23052/sensorcloud";
 var expressSession = require("express-session");
 var mongoStore = require("connect-mongo")(expressSession);
 var mongo = require("./routes/mongo");

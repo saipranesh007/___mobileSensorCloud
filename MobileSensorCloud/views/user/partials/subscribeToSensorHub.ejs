@@ -1,0 +1,28 @@
+<div class="container" style="width:auto">
+<br/>
+<p align="Center" style="font-size:24px;">Sensor Hub Details</p>
+<table style="font-size:12px;" class="table table-condensed table-hover" ng-controller="subscribeToSensorHubController">
+	<thead><tr><th>Sensor Hub Name</th>
+			<th>Sensor Hub Description</th>
+			<th>Sensor Hub Status</th>
+			<th>Sensor Hub Address</th>
+			<th>Sensor Hub City</th>
+			<th>Sensor Hub State</th>
+			<th>Sensor Hub Country</th>
+			<th></th></tr></thead>
+	<tbody><tr ng-repeat="sensorHub in sensorHubs"><br/>
+		 	<td>{{sensorHub.sensorHubName}}</td>
+		 	<td>{{sensorHub.sensorHubDescription}}</td>
+		 	<td>
+		 		{{sensorHub.sensorHubStatus ? 'Enabled' : 'Disabled'}}
+		 	</td>
+		 	<td>{{sensorHub.sensorHubAddress}}</td>
+		 	<td>{{sensorHub.sensorHubCity}}</td>
+		 	<td>{{sensorHub.sensorHubState}}</td>
+		 	<td>{{sensorHub.sensorHubCountry}}</td>
+		 	<td>
+	 			<input type="submit" ng-click="subscribe(sensorHub.sensorHubName)" value="Subscribe" class="btn btn-warning btn-xs">
+		 	</td>
+	</tr></tbody>
+</table>
+</div>

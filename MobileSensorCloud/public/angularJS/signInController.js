@@ -26,7 +26,7 @@ sensorCloud.controller('customerLogin',function($scope,$http){
 				}
 			}).success(function(result) {
 				if(result.status == "success"){
-					window.location = '/redirectToDashboard';
+					window.location = '/redirectToUserHome';
 				}
 				else if(result.status=="fail")
 				{
@@ -69,7 +69,7 @@ sensorCloud.controller('sensorAdminLogin',function($scope,$http){
 				}
 			}).success(function(result) {
 				if(result.status == "success"){
-					window.location = '/sensorAdminDashboard';
+					window.location = '/redirectToAdminHome';
 				}
 				else if(result.status=="fail")
 				{

@@ -1,0 +1,21 @@
+<div class="container" style="width:auto">
+<br/>
+<p align="Center" style="font-size:24px;">Sensor Details</p>
+<table style="font-size:12px;" class="table table-condensed table-hover" ng-controller="viewSensorsController">
+	<thead><tr><th>Sensor ID</th>
+			<th>Sensor Type</th>
+			<th>Sensor Hub</th>
+			<th>Sensor Location Latitude</th>
+			<th>Sensor Location Longitude</th>
+			<th>Sensor Location City</th>
+			</tr></thead>
+	<tbody><tr ng-repeat="sensor in sensors"><br/>
+		 	<td>{{sensor.sensorID}}</td>
+		 	<td>{{sensor.sensorType}}</td>
+		 	<td>{{sensor.sensorHub}}</td>
+		 	<td>{{sensor.sensorLatitude}}</td>
+		 	<td>{{sensor.sensorLongitude}}</td>
+		 	<td>{{sensor.sensorCity}}</td>
+	</tr></tbody>
+</table>
+</div>

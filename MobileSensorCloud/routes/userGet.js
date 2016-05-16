@@ -70,16 +70,16 @@ exports.userDashboardConsole=function(req,res){
 exports.getSensorHubSubscriptions=function(req,res){
 	if(req.session.email){
 		var data=[];
-		mongo.connect(mongoURL, function(db){
+		mongo.connect( function(err,db){
 			console.log('Connected to mongo at: ' + mongoURL);
 			var coll = db.collection('userSubscriptions');
 			coll.find({email:req.session.email}).toArray(function(err, results){
 				if(err){
-					db.close();
+					
 					res.send({"status":"fail" , 'msg': 'Internal Error'});	
 				}
 				else if(results==null){
-					db.close();
+					
 					res.send({"status":"fail" , 'msg': 'No Sensor Hub Exists'});
 				}
 				else{
@@ -90,7 +90,7 @@ exports.getSensorHubSubscriptions=function(req,res){
 					}
 					var coll = mongo.collection('sensorHub');
 					coll.find({sensorHubName:{$nin:item}}).toArray(function(err, results){
-						db.close();
+						
 						if(err){
 							res.send({"status":"fail" , 'msg': 'Internal Error'});	
 						}

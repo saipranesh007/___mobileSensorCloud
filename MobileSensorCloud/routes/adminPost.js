@@ -3,7 +3,7 @@ var mongo = require("../routes/mongo");
 var mongoURL = "mongodb://localhost:27017/sensorCloud";
 exports.saveEditedSensorData=function(req,res){
 	if(req.session.email){
-		mongo.connect(mongoURL, function(db){
+		mongo.connect(function(err,db){
 			console.log('Connected to mongo at: ' + mongoURL);
 			var coll = db.collection('sensorInformation');
 			coll.updateOne(
@@ -16,7 +16,7 @@ exports.saveEditedSensorData=function(req,res){
 							'sensorLongitude':req.param("sensorLongitude")
 						}
 					},function(err,result){
-						db.close();
+						
 						if(result){
 							res.send({"status":"success" , 'msg': 'Data updated successfully'});
 						}
@@ -30,7 +30,7 @@ exports.saveEditedSensorData=function(req,res){
 
 exports.changeSensorStatus=function(req,res){
 	if(req.session.email){
-		mongo.connect(mongoURL, function(db){
+		mongo.connect(function(err,db){
 			console.log('Connected to mongo at: ' + mongoURL);
 			var coll = db.collection('sensorInformation');
 			coll.updateOne(
@@ -39,7 +39,7 @@ exports.changeSensorStatus=function(req,res){
 						$set:{'sensorStatus':req.param("sensorStatus")
 						}
 					},function(err,result){
-						db.close();
+						
 						if(result){
 							res.send({"status":"success" , 'msg': 'Data updated successfully'});
 						}
@@ -52,7 +52,7 @@ exports.changeSensorStatus=function(req,res){
 };
 
 exports.disableSensorHub=function(req,res){
-	mongo.connect(mongoURL, function(db){
+	mongo.connect(function(err,db){
 		console.log('Connected to mongo at: ' + mongoURL);
 		var coll = db.collection('sensorHub');
 		coll.updateOne(
@@ -61,7 +61,7 @@ exports.disableSensorHub=function(req,res){
 					$set:{'sensorHubStatus':req.param("sensorHubStatus")
 					}
 				},function(err,result){
-					db.close();
+					
 					if(result){
 						
 						res.send({"status":"success" , 'msg': 'Data saved successfully'});
@@ -76,11 +76,11 @@ exports.disableSensorHub=function(req,res){
 exports.deleteSensor=function(req,res){
 	if(req.session.email){
 		var sensorID = req.param("sensorID");
-		mongo.connect(mongoURL, function(db){
+		mongo.connect(function(err,db){
 			console.log('Connected to mongo at: ' + mongoURL);
 			var coll = db.collection('sensorInformation');
 			coll.deleteOne({sensorID:sensorID}, function(err,results){
-				db.close();
+				
 				if(err){
 					res.send({"status":"fail" , 'msg': 'Error Deleting'});
 				}
@@ -101,12 +101,12 @@ exports.storeSensorHubData=function(req,res){
 		var sensorHubCity=req.param("sensorHubCity");
 		var sensorHubState=req.param("sensorHubState");
 		var sensorHubCountry=req.param("sensorHubCountry");
-		mongo.connect(mongoURL, function(db){
+		mongo.connect(function(err,db){
 			console.log('Connected to mongo at: ' + mongoURL);
 			var coll = db.collection('sensorHub');
 			coll.findOne({sensorHubName: sensorHubName}, function(err, results){
 				if(err){
-					db.close();
+					
 					res.send({"status":"fail" , 'msg': 'Internal Error'});	
 				}
 				else if(results==null){
@@ -119,13 +119,13 @@ exports.storeSensorHubData=function(req,res){
 							'sensorHubCountry':sensorHubCountry};
 					coll.insert(insert_hub_details_query,function(err,result){
 						if(!err){
-							db.close();
+							
 							res.send({"status":"success" , 'msg': 'Details Inserted successfully'});
 						}
 					});
 				}
 				else{
-					db.close();
+					
 					res.send({"status":"fail" , 'msg': 'Sensor Hub Already exists'});
 				}
 			});
@@ -148,13 +148,13 @@ exports.saveSensor=function(req,res){
 		var sensorLongitude=req.param("sensorLongitude");
 		var sensorCity=req.param("sensorCity");
 		var sensorStatus=req.param("sensorStatus");
-		mongo.connect(mongoURL, function(db){
+		mongo.connect(function(err,db){
 			console.log('Connected to mongo at: ' + mongoURL);
 			var coll = mongo.collection('sensorInformation');
 			coll.findOne({sensorID:sensorID,sensorHub:sensorHub}, function(err, results){
 				
 				if(err){
-					db.close();
+					
 					res.send({"status":"fail" , 'msg': 'Internal DB Error'});	
 				}
 				else if(results==null){
@@ -173,13 +173,13 @@ exports.saveSensor=function(req,res){
 							'sensorStatus':sensorStatus};
 					coll.insert(insert_sensor_details_query,function(err,result){
 						if(!err){
-							db.close();
+							
 							res.send({"status":"success" , 'msg': 'Details Inserted successfully'});
 						}
 					});
 				}
 				else{
-					db.close();
+					
 					res.send({"status":"fail" , 'msg': 'Sensor already added to sensor Type'});
 				}
 			});
@@ -194,17 +194,17 @@ exports.getSensorData=function(req,res){
 		var type=req.param("type");
 		var sensorID;
 		var data=[];
-		mongo.connect(mongoURL, function(db){
+		mongo.connect(function(err,db){
 			console.log('Connected to mongo at: ' + mongoURL);
 			var coll = db.collection('sensorInformation');
 			coll.find({"sensorHub":sensorHubName}).toArray(function(err, results){
 				if(err){
-					db.close();
+					
 					res.send({"status":"fail" , 'msg': 'Internal Error'});	
 					
 				}
 				else if(results==null){
-					db.close();
+					
 					res.send({"status":"fail" , 'msg': 'No Sensor Hub Exists'});
 				}
 				else{
@@ -226,7 +226,7 @@ exports.getSensorData=function(req,res){
 						else{
 							res.send({"status":"success" , 'msg': results});
 						}
-						db.close();
+						
 					});
 				}
 			});

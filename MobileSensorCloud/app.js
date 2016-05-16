@@ -10,8 +10,8 @@ var express = require('express')
   , path = require('path');
 
 var expressSession = require("express-session");
-//var mongoSessionConnectURL = "mongodb://project:project@ds023052.mlab.com:23052/sensorcloud";
-var mongoSessionConnectURL = "mongodb://localhost:27017/sessions";
+//var mongoSessionConnectURL = "mongodb://project:project@ds023052.mlab.com:23052/sessions";
+//var mongoSessionConnectURL = "mongodb://localhost:27017/sessions";
 var expressSession = require("express-session");
 var mongoStore = require("connect-mongo")(expressSession);
 var mongo = require("./routes/mongo");
@@ -22,9 +22,9 @@ app.use(expressSession({
 	saveUninitialized: false,	// don't create session until something stored
 	duration: 30 * 60 * 1000,    
 	activeDuration: 5 * 60 * 1000,
-	store: new mongoStore({
+	/*store: new mongoStore({
 		url: mongoSessionConnectURL
-	})
+	})*/
 }));
 // all environments
 app.set('port', process.env.PORT || 3001);

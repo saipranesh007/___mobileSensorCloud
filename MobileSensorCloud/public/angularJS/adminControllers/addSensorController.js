@@ -24,6 +24,7 @@ sensorCloudApp.controller('addSensorController',function($scope,$http){
 		}).success(function(result) {
 			if(result.status == "success"){
 				$scope.storedStatus=false;
+				
 			}
 			else if(result.status=="fail")
 			{

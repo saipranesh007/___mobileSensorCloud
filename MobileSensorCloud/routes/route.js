@@ -9,7 +9,24 @@ var userGet = require('../routes/userGet');
 var userPost = require('../routes/userPost');
 var adminGet = require('../routes/adminGet');
 var adminPost = require('../routes/adminPost');
+var waterLevelSensor  = require('../routes/waterLevelSensor');
+var waterTemperature = require('../routes/waterTemperatureSensor');
+var cronjob = require('node-cron-job');
+
+
+
+
 module.exports = function (app)	{
+	
+	
+
+
+	cronjob.setJobsPath(__dirname + "/cronJobs.js");
+
+	cronjob.startJob('first_job');
+
+	//cronjob.startJob('second_job');
+	
 	//User Get Requests
 	app.get('/redirectToUserHome',userGet.redirectToUserHome);
 	app.get('/viewRegisteredSensorsHubs',userGet.viewRegisteredSensorsHubs);
@@ -30,6 +47,11 @@ module.exports = function (app)	{
 	//app.get('/sensorDataPage',redirectToSensorDataPage);
 	app.get('/getMockGraphData',userGet.getMockGraphData);
 	app.get('/getSensorHubSubscriptions',userGet.getSensorHubSubscriptions);
+	
+	
+	//Newly added!
+	app.get('/waterLevelSensor',waterLevelSensor.mine);
+	app.get('/waterTemperatureSensor',waterTemperature.mine);
 	
 	//Admin GET Requests
 	app.get('/sensorAdminDashboardConsole',adminGet.sensorAdminDashboardConsole);

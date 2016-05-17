@@ -1,6 +1,20 @@
 <br/>
 <div ng-controller="waterLevelController">
+
+
 <br/>
+
+<div class="row">
+		<div class="col-sm-2">
+			<p style="font-size:19px">Select sensor hub</p>
+		</div>
+		<div class="col-sm-3">
+	      <select class="form-control" ng-change="getWindSpeedData(sensorHub,'Wind Speed and Direction')" ng-model="sensorHub">
+	        <option ng-repeat="sensorHub in sensorHubs" ng-model="sensorHub.sensorHubName">{{sensorHub.sensorHubName}}</option>
+	       </select>
+       </div>
+    </div>
+    <br/>
 	<div class="row">
 		<div class="col-sm-9">
 			<table class="table table-bordered" style="width:700px;height:100%;">

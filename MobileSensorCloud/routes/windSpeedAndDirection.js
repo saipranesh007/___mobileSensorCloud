@@ -66,7 +66,7 @@ function checkInDatabase (sensor,date,time,avgValue){
 	(function check(){
 	
 		mongo.connect(function(err,db){
-			var coll = mongo.collection('waterLevelDataCollection');
+			var coll = mongo.collection('windSpeedAndDirectionDataCollection');
 			coll.findOne({"sensorID":sensor,"date":date},function(err,results){
 				if(err){
 					
